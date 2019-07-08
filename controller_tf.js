@@ -5,7 +5,7 @@ import {ControllerDataset} from './controller_dataset';
 import * as ui from './controller_ui';
 
 // The number of classes we want to predict. In this example, we will be
-// predicting 4 classes for up, down, left, and right.
+// predicting 4 classes for up, down, left, right and background.
 const NUM_CLASSES = 5;
 
 // A webcam iterator that generates Tensors from the images from the webcam.
