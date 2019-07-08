@@ -21,7 +21,7 @@ let model;
 // we'll use as input to our classifier model.
 async function loadTruncatedMobileNet() {
     const mobilenet = await tf.loadLayersModel(
-        'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
+        './model.json');
 
     // Return a model that outputs an internal activation.
     const layer = mobilenet.getLayer('conv_pw_13_relu');
@@ -30,7 +30,7 @@ async function loadTruncatedMobileNet() {
 
 // When the UI buttons are pressed, read a frame from the webcam and associate
 // it with the class label given by the button. up, down, left, right are
-// labels 0, 1, 2, 3 respectively.
+// labels 0, 1, 2, 3, 4 respectively for 5 classes
 ui.setExampleHandler(async label => {
     let img = await getImage();
 
