@@ -300,7 +300,7 @@ header b {
 }
 
 .panel-row-top .panel-cell-left {
-    background: url("./images/pointer.svg");
+    background: url("images/pointer.svg");
     background-repeat: no-repeat;
     background-size: 38%;
     background-position: 98% 46%;
