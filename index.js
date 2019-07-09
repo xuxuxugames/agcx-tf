@@ -56,7 +56,7 @@ ui.setExampleHandler(async label => {
   // Draw the preview thumbnail.
   ui.drawThumb(img, label);
   img.dispose();
-})
+});
 
 /**
  * Sets up and trains the classifier.
