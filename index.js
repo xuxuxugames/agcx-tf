@@ -36,21 +36,15 @@ let model;
 let layer_pre_softmax;
 let model_pre_softmax;
 
-// Loads mobilenet and returns a model that returns the internal activation
-// we'll use as input to our classifier model.
 async function loadTruncatedMobileNet() {
     const mobilenet = await tf.loadLayersModel(
         'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
 
-    // Return a model that outputs an internal activation.
     const layer = mobilenet.getLayer('conv_pw_13_relu');
     return tf.model({inputs: mobilenet.inputs, outputs: layer.output});
 
 }
 
-// When the UI buttons are pressed, read a frame from the webcam and associate
-// it with the class label given by the button. up, down, left, right are
-// labels 0, 1, 2, 3 respectively.
 ui.setExampleHandler(async label => {
     let img = await getImage();
 
@@ -68,6 +62,7 @@ async function train() {
     if (controllerDataset.xs == null) {
         throw new Error('Add some examples before training!');
     }
+    //model define
     const input = tf.layers.input({shape: [7, 7, 256]});
     const flatten = tf.layers.flatten().apply(input);
     const dense1 = tf.layers.dense({
@@ -106,9 +101,10 @@ async function train() {
             }
         }
     });
+
     layer_pre_softmax = model.getLayer("pre_softmax");
     model_pre_softmax = tf.model({inputs: model.inputs, outputs: layer_pre_softmax.output});
-    const save = await model.save('indexeddb://model_fc');
+    await model_pre_softmax.save('indexeddb://model');
 }
 
 let isPredicting = false;
@@ -121,7 +117,7 @@ async function predict() {
         const embeddings = truncatedMobileNet.predict(img);
 
         const predictions = model_pre_softmax.predict(embeddings);
-        console.log(predictions.data());
+        console.log(predictions.as1D().data());
 
         const predictedClass = predictions.as1D().argMax();
         const classId = (await predictedClass.data())[0];
@@ -165,7 +161,6 @@ async function init() {
         document.getElementById('no-webcam').style.display = 'block';
     }
     truncatedMobileNet = await loadTruncatedMobileNet();
-    console.log(truncatedMobileNet.outputs[0].shape.slice(1));
 
     ui.init();
 
