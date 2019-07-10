@@ -26,6 +26,7 @@ export function init() {
 
 const trainStatusElement = document.getElementById('train-status');
 
+
 // Set hyper params from UI values.
 const learningRateElement = document.getElementById('learningRate');
 export const getLearningRate = () => +learningRateElement.value;
@@ -40,6 +41,8 @@ const denseUnitsElement = document.getElementById('dense-units');
 export const getDenseUnits = () => +denseUnitsElement.value;
 const statusElement = document.getElementById('status');
 
+
+//game
 export function startPacman() {
   google.pacman.startGameplay();
 }
